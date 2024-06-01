@@ -6,7 +6,7 @@ import { GrCart } from "react-icons/gr"
 
 export const Navbar = () => {
   return (
-    <div className="bg-nav-blue">
+    <div className="bg-nav-blue sticky top-0 z-50">
       <div className="container mx-auto px-4 py-2">
         <div className="flex flex-row items-center justify-between">
           <ul className="flex flex-row gap-4">
