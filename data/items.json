@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "شلوار مردانه راسته",
+    "price": 210000,
+    "imgUrl": "/images/p01.jpg"
+  },
+  {
+    "id": 2,
+    "name": "پیراهن آستین کوتاه",
+    "price": 153000,
+    "imgUrl": "/images/p02.jpg"
+  },
+  {
+    "id": 3,
+    "name": "هودی خاکستری آبی",
+    "price": 485000,
+    "imgUrl": "/images/p03.jpg"
+  },
+  {
+    "id": 4,
+    "name": "هودی نقشه جهان",
+    "price": 513000,
+    "imgUrl": "/images/p04.jpg"
+  },
+  {
+    "id": 5,
+    "name": "پیراهن چهارخانه",
+    "price": 187000,
+    "imgUrl": "/images/p05.jpg"
+  },
+  {
+    "id": 6,
+    "name": "کفش اسپرت مردانه",
+    "price": 579900,
+    "imgUrl": "/images/p06.jpg"
+  },
+  {
+    "id": 7,
+    "name": "کفش اسپرت دریا",
+    "price": 672000,
+    "imgUrl": "/images/p07.jpg"
+  },
+  {
+    "id": 8,
+    "name": "شلوار راحتی مردانه",
+    "price": 379000,
+    "imgUrl": "/images/p08.jpg"
+  },
+  {
+    "id": 9,
+    "name": "تی شرت پوما",
+    "price": 109900,
+    "imgUrl": "/images/p09.jpg"
+  },
+  {
+    "id": 10,
+    "name": "تی شرت لبخند",
+    "price": 143500,
+    "imgUrl": "/images/p10.jpg"
+  }
+]
