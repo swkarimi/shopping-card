@@ -1,3 +1,5 @@
+'use client'
+
 import { formatPersianNumber } from "@/lib/format"
 import React, { FC } from "react"
 

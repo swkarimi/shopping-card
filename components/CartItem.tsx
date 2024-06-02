@@ -1,3 +1,5 @@
+'use client'
+
 import { useShoppingCart } from "@/context/ShoppingCartContext"
 import productItems from "../data/items.json"
 import React, { FC } from "react"
