@@ -1,23 +1,32 @@
-'use client'
+"use client"
 
 import { useShoppingCart } from "@/context/ShoppingCartContext"
+import type { CartItem as CartItemType } from "@/context/ShoppingCartContext"
 import { cn } from "@/lib/utils"
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { IoCloseOutline } from "react-icons/io5"
-import { CartItem } from "./CartItem"
 import productItems from "../data/items.json"
 import { Currency } from "./Currency"
+import { CartItem } from "./CartItem"
 
 type ShoppingCartProps = {
   isOpen: boolean
 }
 
 export const ShoppingCart: FC<ShoppingCartProps> = ({ isOpen }) => {
+  const [carItemsValue, setCartItemsValue] = useState<CartItemType[]>([])
+
   const { closeCart, cartItems } = useShoppingCart()
-  const total = cartItems.reduce((total, cartItem) => {
+
+  useEffect(() => {
+    setCartItemsValue(cartItems)
+  }, [cartItems])
+
+  const total = carItemsValue.reduce((total, cartItem) => {
     const item = productItems.find((i) => i.id == cartItem.id)
     return total + (item?.price || 0) * cartItem.quantity
   }, 0)
+
   return (
     <div
       className={cn(
@@ -36,7 +45,7 @@ export const ShoppingCart: FC<ShoppingCartProps> = ({ isOpen }) => {
       </button>
       <div className="py-4 overflow-y-auto">
         <ul className="space-y-4">
-          {cartItems.map((item) => (
+          {carItemsValue.map((item) => (
             <CartItem key={item.id} {...item} />
           ))}
         </ul>

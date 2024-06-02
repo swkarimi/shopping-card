@@ -2,7 +2,7 @@
 
 import { useShoppingCart } from "@/context/ShoppingCartContext"
 import Image from "next/image"
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { GoTrash } from "react-icons/go"
 import { HiMinus, HiPlus } from "react-icons/hi2"
 import { Currency } from "./Currency"
@@ -21,12 +21,17 @@ export const ProductItem: FC<ProductItemProps> = ({
   imgUrl,
   price,
 }) => {
+  const [quantity, setQuantity] = useState<number>(0)
   const {
     getItemQuantity,
     increaseCartQuantity,
     decreaseCartQuantity,
   } = useShoppingCart()
-  const quantity: number = getItemQuantity(id)
+
+  useEffect(() => {
+    const q = getItemQuantity(id)
+    setQuantity(q)
+  }, [getItemQuantity, id])
 
   return (
     <div className="max-w-80 w-full mx-auto border rounded bg-white">
