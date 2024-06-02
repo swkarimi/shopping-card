@@ -1,9 +1,7 @@
 'use client'
 
-import { ShoppingCart } from "@/components/ShoppingCart"
 import { useLocalStorage } from "@/hooks/useLocalStorage"
 import { ReactNode, createContext, useContext, useState } from "react"
-
 
 type ShoppingCartProviderProps = {
   children: ReactNode
@@ -21,7 +19,7 @@ type ShoppingCartContext = {
   isOpen:boolean
 }
 
-type CartItem = {
+export type CartItem = {
   id: number
   quantity: number
 }
