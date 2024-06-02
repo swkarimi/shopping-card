@@ -25,7 +25,6 @@ export const ProductItem: FC<ProductItemProps> = ({
     getItemQuantity,
     increaseCartQuantity,
     decreaseCartQuantity,
-    removeFromCart,
   } = useShoppingCart()
   const quantity: number = getItemQuantity(id)
 
