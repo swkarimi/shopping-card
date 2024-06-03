@@ -1,6 +1,7 @@
-'use client'
+"use client"
 
 import { useLocalStorage } from "@/hooks/useLocalStorage"
+import { ProductItem } from "@/type/type"
 import { ReactNode, createContext, useContext, useState } from "react"
 
 type ShoppingCartProviderProps = {
@@ -14,13 +15,14 @@ type ShoppingCartContext = {
   cartQuantity: number
   increaseCartQuantity: (id: number) => void
   decreaseCartQuantity: (id: number) => void
+  addCart: (product: ProductItem) => void
   removeFromCart: (id: number) => void
   cartItems: CartItem[]
-  isOpen:boolean
+  isOpen: boolean
 }
 
 export type CartItem = {
-  id: number
+  product: ProductItem
   quantity: number
 }
 
@@ -28,7 +30,10 @@ const ShoppingCartContext = createContext({} as ShoppingCartContext)
 
 export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [cartItems, setCartItems] = useLocalStorage<CartItem[]>("shopping-cart",[])
+  const [cartItems, setCartItems] = useLocalStorage<CartItem[]>(
+    "shopping-cart",
+    []
+  )
 
   const cartQuantity: number = cartItems
     .map((item) => item.quantity)
@@ -38,51 +43,65 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
   const closeCart = () => setIsOpen(false)
 
   function getItemQuantity(id: number) {
-    return cartItems.find((item) => item.id === id)?.quantity || 0
+    return cartItems.find((item) => item.product?.id === id)?.quantity || 0
   }
 
+  // add product for first time
+  function addCart(product: ProductItem) {
+    const newCartItems: CartItem[] = [...cartItems, { product, quantity: 1 }]
+    setCartItems(newCartItems)
+  }
+
+  // increase quantity if added product before
   function increaseCartQuantity(id: number) {
-    setCartItems((currItems) => {
-      if (currItems.find((item) => item.id === id) === undefined) {
-        return [...currItems, { id, quantity: 1 }]
+    const newCartItem: CartItem | undefined = cartItems.find(
+      (item) => item.product?.id === id
+    )
+
+    // never happend
+    if (newCartItem === undefined) return
+
+    const newCartItems: CartItem[] = cartItems.map((item) => {
+      if (item.product.id === id) {
+        return { ...item, quantity: item.quantity + 1 }
       } else {
-        return currItems.map((item) => {
-          if (item.id === id) {
-            return { ...item, quantity: item.quantity + 1 }
-          } else {
-            return item
-          }
-        })
+        return item
       }
     })
+
+    setCartItems(newCartItems)
   }
 
   function decreaseCartQuantity(id: number) {
-    setCartItems((currItems) => {
-      if (currItems.find((item) => item.id === id)?.quantity === 1) {
-        return currItems.filter((item) => item.id !== id)
-      } else {
-        return currItems.map((item) => {
-          if (item.id === id) {
-            return { ...item, quantity: item.quantity - 1 }
-          } else {
-            return item
-          }
-        })
-      }
-    })
+    const newCartItem: CartItem | undefined = cartItems.find(
+      (item) => item.product.id === id
+    )
+    const newCartItems: CartItem[] =
+      newCartItem?.quantity === 1
+        ? cartItems.filter((item) => item.product.id !== id)
+        : cartItems.map((item) => {
+            if (item.product.id === id) {
+              return { ...item, quantity: item.quantity - 1 }
+            } else {
+              return item
+            }
+          })
+
+    setCartItems(newCartItems)
   }
 
   function removeFromCart(id: number) {
-    setCartItems((currItems) => {
-      return currItems.filter((item) => item.id !== id)
-    })
+    const newCartItems: CartItem[] = cartItems.filter(
+      (item) => item.product.id !== id
+    )
+    setCartItems(newCartItems)
   }
 
   return (
     <ShoppingCartContext.Provider
       value={{
         getItemQuantity,
+        addCart,
         increaseCartQuantity,
         decreaseCartQuantity,
         removeFromCart,
