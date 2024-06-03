@@ -2,7 +2,8 @@
 
 import { useShoppingCart } from "@/context/ShoppingCartContext"
 import Image from "next/image"
-import React, { FC, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
+import type { FC } from "react"
 import { GoTrash } from "react-icons/go"
 import { HiMinus, HiPlus } from "react-icons/hi2"
 import { Currency } from "./Currency"
@@ -24,6 +25,7 @@ export const ProductItem: FC<ProductItemProps> = ({
   const [quantity, setQuantity] = useState<number>(0)
   const {
     getItemQuantity,
+    addCart,
     increaseCartQuantity,
     decreaseCartQuantity,
   } = useShoppingCart()
@@ -36,7 +38,13 @@ export const ProductItem: FC<ProductItemProps> = ({
   return (
     <div className="max-w-80 w-full mx-auto border rounded bg-white">
       <div className="relative w-full aspect-square">
-        <Image src={imgUrl} alt={name} fill className="rounded-t" sizes="w-full aspect-square" />
+        <Image
+          src={imgUrl}
+          alt={name}
+          fill
+          className="rounded-t"
+          sizes="w-full aspect-square"
+        />
       </div>
       <div className="flex justify-between items-baseline p-2">
         <span className="text-sm">{name}</span>
@@ -46,7 +54,7 @@ export const ProductItem: FC<ProductItemProps> = ({
         {quantity === 0 ? (
           <button
             className="px-4 py-2 text-sm bg-sky-600 hover:bg-sky-700 text-white rounded-md outline-none"
-            onClick={() => increaseCartQuantity(id)}
+            onClick={() => addCart({ id, imgUrl, name, price })}
           >
             افزودن به سبد خرید
           </button>
