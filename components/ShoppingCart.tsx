@@ -5,7 +5,6 @@ import type { CartItem as CartItemType } from "@/context/ShoppingCartContext"
 import { cn } from "@/lib/utils"
 import React, { FC, useEffect, useState } from "react"
 import { IoCloseOutline } from "react-icons/io5"
-import productItems from "../data/items.json"
 import { Currency } from "./Currency"
 import { CartItem } from "./CartItem"
 
@@ -23,8 +22,7 @@ export const ShoppingCart: FC<ShoppingCartProps> = ({ isOpen }) => {
   }, [cartItems])
 
   const total = carItemsValue.reduce((total, cartItem) => {
-    const item = productItems.find((i) => i.id == cartItem.id)
-    return total + (item?.price || 0) * cartItem.quantity
+    return total + cartItem.product.price * cartItem.quantity
   }, 0)
 
   return (
@@ -46,14 +44,14 @@ export const ShoppingCart: FC<ShoppingCartProps> = ({ isOpen }) => {
       <div className="py-4 overflow-y-auto">
         <ul className="space-y-4">
           {carItemsValue.map((item) => (
-            <CartItem key={item.id} {...item} />
+            <CartItem key={item.product.id} {...item} />
           ))}
         </ul>
       </div>
       {total !== 0 && <hr />}
       {total === 0 ? (
         <div className="flex justify-center pt-4 text-sm">
-          سبد کالا خالی می‌باشد
+          سبد خرید خالی می‌باشد
         </div>
       ) : (
         <div className="flex items-center justify-between pt-4">
